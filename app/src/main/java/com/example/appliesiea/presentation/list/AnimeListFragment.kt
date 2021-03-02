@@ -38,11 +38,11 @@ class AnimeListFragment : Fragment() {
             adapter = this@AnimeListFragment.adapter
         }
 
-        val aniList = arrayListOf<String>().apply {
-            add("One Piece")
-            add("Naruto")
-            add("Bleach")
-            add("Dragon Ball")
+        val aniList = arrayListOf<Anime>().apply {
+            add(Anime("One Piece"))
+            add(Anime("Naruto"))
+            add(Anime("Bleach"))
+            add(Anime("Dragon Ball"))
         }
 
         adapter.updateList(aniList)

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appliesiea.R
 
 
-class AnimeAdapter(private var dataSet: List<String>) :
+class AnimeAdapter(private var dataSet: List<Anime>) :
     RecyclerView.Adapter<AnimeAdapter.ViewHolder>() {
 
     /**
@@ -24,7 +24,7 @@ class AnimeAdapter(private var dataSet: List<String>) :
         }
     }
 
-    fun updateList(list: List<String>){
+    fun updateList(list: List<Anime>){
         dataSet = list
         notifyDataSetChanged()
     }
@@ -43,7 +43,9 @@ class AnimeAdapter(private var dataSet: List<String>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.textView.text = dataSet[position]
+        val anime = dataSet[position
+        ]
+        viewHolder.textView.text = anime.name
     }
 
     // Return the size of your dataset (invoked by the layout manager)
