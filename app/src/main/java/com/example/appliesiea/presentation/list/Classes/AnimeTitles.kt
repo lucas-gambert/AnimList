@@ -1,5 +1,5 @@
 package com.example.appliesiea.presentation.list.Classes
 
-data class Titles(
+data class AnimeTitles(
     val en_jp: String
 )
