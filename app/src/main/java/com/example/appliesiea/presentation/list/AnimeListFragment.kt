@@ -1,16 +1,21 @@
 package com.example.appliesiea.presentation.list
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appliesiea.R
+import com.example.appliesiea.api.AnimeApi
+import com.example.appliesiea.api.AnimeResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -38,13 +43,24 @@ class AnimeListFragment : Fragment() {
             adapter = this@AnimeListFragment.adapter
         }
 
-        val aniList = arrayListOf<Anime>().apply {
-            add(Anime("One Piece"))
-            add(Anime("Naruto"))
-            add(Anime("Bleach"))
-            add(Anime("Dragon Ball"))
-        }
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://kitsu.io/api/edge/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val animeApi: AnimeApi = retrofit.create(AnimeApi::class.java)
 
-        adapter.updateList(aniList)
+        animeApi.getAnimeList().enqueue(object: Callback<AnimeResponse>{
+            override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
+                if(response.isSuccessful && response.body() != null){
+                    val animeResponse : AnimeResponse = response.body()!!
+                    adapter.updateList(animeResponse.data)
+                }
+            }
+
+            override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

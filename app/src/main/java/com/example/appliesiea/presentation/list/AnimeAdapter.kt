@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appliesiea.R
+import com.example.appliesiea.presentation.list.Classes.Anime
 
 
 class AnimeAdapter(private var dataSet: List<Anime>) :
@@ -43,9 +44,9 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val anime = dataSet[position
-        ]
-        viewHolder.textView.text = anime.name
+        val anime = dataSet[position]
+        viewHolder.textView.text =  anime.id.toString() + " : " + anime.attributes.titles.en_jp
+        //viewHolder.textViewId.text = anime.id.toString()
     }
 
     // Return the size of your dataset (invoked by the layout manager)
