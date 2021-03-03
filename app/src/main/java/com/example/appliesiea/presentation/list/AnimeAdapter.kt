@@ -1,11 +1,13 @@
 package com.example.appliesiea.presentation.list
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -28,15 +30,25 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
         val imageView: ImageView
+        var id: Int = 0
+
 
         init {
             // Define click listener for the ViewHolder's View.
             textView = view.findViewById(R.id.anime_name)
             imageView = view.findViewById(R.id.anime_image)
+
+            //listener sur une ligne
+            view.setOnClickListener {
+                val intent = Intent(view.context, AnimeDetails::class.java).apply {
+                    putExtra("EXTRA_MESSAGE", id.toString())
+                }
+                view.context.startActivity(intent)
+            }
         }
     }
 
-    fun updateList(list: List<Anime>){
+    fun updateList(list: List<Anime>) {
         dataSet = list
         notifyDataSetChanged()
     }
@@ -56,31 +68,17 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val anime = dataSet[position]
-        viewHolder.textView.text = anime.id.toString() + " : " +
-            anime.attributes.titles.en_jp
+        /*viewHolder.textView.text = anime.id.toString() + " : " +
+                anime.attributes.titles.en_jp*/
+
+        viewHolder.textView.text = anime.attributes.titles.en_jp
+        viewHolder.id = anime.id
+
 
         Picasso.get().load(anime.attributes.posterImage.tiny).into(viewHolder.imageView)
 
 
-        //viewHolder.textViewId.text = anime.id.toString()
     }
-
-    /*fun getBitmapFromURL(src: String?): Bitmap? {
-        return try {
-            Log.e("src", src)
-            val url = URL(src)
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.setDoInput(true)
-            connection.connect()
-            val input: InputStream = connection.getInputStream()
-            val myBitmap = BitmapFactory.decodeStream(input)
-            Log.e("Bitmap", "returned")
-            myBitmap
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }*/
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
