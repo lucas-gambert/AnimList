@@ -1,26 +1,27 @@
 package com.example.appliesiea.presentation.list
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color.blue
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.appliesiea.R
 import com.example.appliesiea.api.AnimeApi
 import com.example.appliesiea.api.AnimeDetailsResponse
-import com.example.appliesiea.api.AnimeResponse
-import com.example.appliesiea.presentation.list.Classes.Anime
-import okhttp3.OkHttpClient
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+
 
 class AnimeDetails : AppCompatActivity() {
 
@@ -32,9 +33,16 @@ class AnimeDetails : AppCompatActivity() {
 
         val actionBar = supportActionBar
         actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar!!.title = message
 
-        val idTextView = findViewById<TextView>(R.id.anime_details_id)
+        val imageTextView = findViewById<ImageView>(R.id.anime_details_image)
+        val nameTextView = findViewById<TextView>(R.id.anime_details_name)
+        val nameJpTextView = findViewById<TextView>(R.id.anime_details_nameJp)
+        val datesTextView = findViewById<TextView>(R.id.anime_details_dates)
+        val titleSynopsis = findViewById<TextView>(R.id.anime_details_titleSynopsis)
+        val synopsisTextView = findViewById<TextView>(R.id.anime_details_synopsis)
+
+        var isCheck: Boolean = true
+
 
         //////////PARTIE APPEL API - ADAPTER ETC///////////////////
         val retrofit = Retrofit.Builder()
@@ -44,13 +52,35 @@ class AnimeDetails : AppCompatActivity() {
 
         val service: AnimeApi = retrofit.create(AnimeApi::class.java)
 
-        service.getAnime(message).enqueue(object: Callback<AnimeDetailsResponse> {
-            override fun onResponse(call: Call<AnimeDetailsResponse>, response: Response<AnimeDetailsResponse>) {
-                if(response.isSuccessful && response.body() != null){
-                    //actionBar!!.title = response.body()!!.data.id.toString()
-                    idTextView.text = response.body()!!.data.id.toString()
+        service.getAnime(message).enqueue(object : Callback<AnimeDetailsResponse> {
+            override fun onResponse(
+                call: Call<AnimeDetailsResponse>,
+                response: Response<AnimeDetailsResponse>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    actionBar!!.title = response.body()!!.data.attributes.titles.en_jp
+                    Picasso.get().load(response.body()!!.data.attributes.posterImage.large).into(
+                        imageTextView
+                    )
+                    nameTextView.text = response.body()!!.data.attributes.titles.en_jp
+                    nameJpTextView.text = response.body()!!.data.attributes.titles.ja_jp
+                    datesTextView.text =
+                        response.body()!!.data.attributes.startDate + " - " + response.body()!!.data.attributes.endDate
+                    titleSynopsis.text = getString(R.string.titleSynopsis)
+                    synopsisTextView.text = response.body()!!.data.attributes.synopsis
+                    synopsisTextView.setOnClickListener {
+                        if (isCheck) {
+                            synopsisTextView.setMaxLines(1000);
+                            isCheck = false;
+                        } else {
+                            synopsisTextView.setMaxLines(10);
+                            isCheck = true;
+                        }
+                    }
+
                 }
             }
+
             override fun onFailure(call: Call<AnimeDetailsResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
@@ -62,7 +92,7 @@ class AnimeDetails : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
