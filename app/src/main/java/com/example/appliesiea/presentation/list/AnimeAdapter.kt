@@ -30,12 +30,14 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
         val imageView: ImageView
+        val rateTextView: TextView
         var id: Int = 0
 
 
         init {
             // Define click listener for the ViewHolder's View.
             textView = view.findViewById(R.id.anime_name)
+            rateTextView = view.findViewById(R.id.anime_rate)
             imageView = view.findViewById(R.id.anime_image)
 
             //listener sur une ligne
@@ -55,7 +57,7 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the lmist item
+        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.anime_item, viewGroup, false)
 
@@ -68,14 +70,13 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val anime = dataSet[position]
-        /*viewHolder.textView.text = anime.id.toString() + " : " +
-                anime.attributes.titles.en_jp*/
 
         viewHolder.textView.text = anime.attributes.titles.en_jp
+        viewHolder.rateTextView.text = "Note : " + anime.attributes.averageRating
         viewHolder.id = anime.id
 
 
-        Picasso.get().load(anime.attributes.posterImage.tiny).into(viewHolder.imageView)
+        Picasso.get().load(anime.attributes.posterImage.small).into(viewHolder.imageView)
 
 
     }

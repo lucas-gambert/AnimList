@@ -1,9 +1,10 @@
 package com.example.appliesiea.presentation.list
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,4 +64,5 @@ class AnimeListFragment : Fragment() {
 
         })
     }
+
 }

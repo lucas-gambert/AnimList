@@ -10,4 +10,7 @@ interface AnimeApi {
 
     @GET("anime/{idAnime}")
     fun getAnime(@Path("idAnime") idAnime: String): Call<AnimeDetailsResponse>
+
+    @GET("anime?filter[text]={recherche}")
+    fun searchAnime(@Path("recherche") recherche: String): Call<AnimeResponse>
 }
