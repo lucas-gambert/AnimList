@@ -45,14 +45,8 @@ class AnimeDetails : AppCompatActivity() {
 
 
         //////////PARTIE APPEL API - ADAPTER ETC///////////////////
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://kitsu.io/api/edge/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val service: AnimeApi = retrofit.create(AnimeApi::class.java)
-
-        service.getAnime(message).enqueue(object : Callback<AnimeDetailsResponse> {
+        Singletons.animeApi.getAnime(message).enqueue(object : Callback<AnimeDetailsResponse> {
             override fun onResponse(
                 call: Call<AnimeDetailsResponse>,
                 response: Response<AnimeDetailsResponse>
