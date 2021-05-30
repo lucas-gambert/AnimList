@@ -30,6 +30,20 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/animeLoader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/animeError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_generic"
+        android:layout_gravity="center"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/anime_recyclerview"

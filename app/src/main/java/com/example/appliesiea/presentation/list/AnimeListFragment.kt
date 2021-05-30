@@ -3,6 +3,7 @@ package com.example.appliesiea.presentation.list
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.appliesiea.Classes.Anime
 import com.example.appliesiea.presentation.Singletons
+import org.w3c.dom.Text
 
 
 /**
@@ -24,6 +26,8 @@ import com.example.appliesiea.presentation.Singletons
 class AnimeListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var loader: ProgressBar
+
     private val adapter = AnimeAdapter(listOf())
     private val layoutManager = LinearLayoutManager(context)
 
@@ -45,6 +49,8 @@ class AnimeListFragment : Fragment() {
             layoutManager = this@AnimeListFragment.layoutManager
             adapter = this@AnimeListFragment.adapter
         }
+        loader = view.findViewById(R.id.animeLoader)
+        val error = view.findViewById<TextView>(R.id.animeError)
 
         val searchText = view.findViewById<EditText>(R.id.searchQuery)
         val searchButton = view.findViewById<ImageButton>(R.id.searchBtn)
@@ -78,8 +84,12 @@ class AnimeListFragment : Fragment() {
 
         }
 
-        viewModel.animeList.observe(viewLifecycleOwner, Observer { list ->
-            adapter.updateList(list)
+        viewModel.animeList.observe(viewLifecycleOwner, Observer { animeModel ->
+            loader.isVisible = animeModel is AnimeLoader
+            error.isVisible = animeModel is AnimeError
+                if(animeModel is AnimeSuccess) {
+                    adapter.updateList(animeModel.animeList)
+                }
         })
 
     }

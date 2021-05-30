@@ -13,22 +13,25 @@ import retrofit2.Response
 
 class AnimeListViewModel: ViewModel() {
 
-    val animeList : MutableLiveData<List<Anime>> = MutableLiveData()
+    val animeList : MutableLiveData<AnimeModel> = MutableLiveData()
 
     init {
         callApi()
     }
 
     private fun callApi() {
+        animeList.value = AnimeLoader
         Singletons.animeApi.getAnimeList().enqueue(object : Callback<AnimeResponse> {
             override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
-                //TODO("not implemented")
+                animeList.value = AnimeError
             }
 
             override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val animeResponse: AnimeResponse = response.body()!!
-                    animeList.value = animeResponse.data
+                    animeList.value = AnimeSuccess(animeResponse.data)
+                } else {
+                    animeList.value = AnimeError
                 }
             }
 
