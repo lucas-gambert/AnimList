@@ -1,26 +1,18 @@
-package com.example.appliesiea.presentation.list
+package com.example.appliesiea.presentation.details
 
-import android.content.Intent
-import android.graphics.Color.blue
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appliesiea.R
-import com.example.appliesiea.api.AnimeApi
-import com.example.appliesiea.api.AnimeDetailsResponse
+import com.example.appliesiea.presentation.api.AnimeDetailsResponse
+import com.example.appliesiea.presentation.Singletons
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class AnimeDetails : AppCompatActivity() {

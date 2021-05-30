@@ -1,23 +1,16 @@
 package com.example.appliesiea.presentation.list
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appliesiea.R
-import com.example.appliesiea.presentation.list.Classes.Anime
+import com.example.appliesiea.presentation.details.AnimeDetails
+import com.example.appliesiea.Classes.Anime
 import com.squareup.picasso.Picasso
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 
 class AnimeAdapter(private var dataSet: List<Anime>) :

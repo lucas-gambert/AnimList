@@ -1,6 +1,4 @@
-package com.example.appliesiea.presentation.list.Classes
-
-import java.util.*
+package com.example.appliesiea.Classes
 
 data class AnimeAttributes(
     val titles: AnimeTitles,

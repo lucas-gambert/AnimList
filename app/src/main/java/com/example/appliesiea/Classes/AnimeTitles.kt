@@ -1,4 +1,4 @@
-package com.example.appliesiea.presentation.list.Classes
+package com.example.appliesiea.Classes
 
 data class AnimeTitles(
     val en_jp: String,

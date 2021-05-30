@@ -1,24 +1,21 @@
 package com.example.appliesiea.presentation.list
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appliesiea.R
-import com.example.appliesiea.api.AnimeApi
-import com.example.appliesiea.api.AnimeResponse
+import com.example.appliesiea.presentation.api.AnimeResponse
 import kotlinx.android.synthetic.main.fragment_anime_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import android.util.Log
+import com.example.appliesiea.Classes.Anime
+import com.example.appliesiea.presentation.Singletons
 
 
 /**
@@ -30,6 +27,7 @@ class AnimeListFragment : Fragment() {
     private val adapter = AnimeAdapter(listOf())
     private val layoutManager = LinearLayoutManager(context)
 
+    private val viewModel: AnimeListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,19 +78,10 @@ class AnimeListFragment : Fragment() {
 
         }
 
-        Singletons.animeApi.getAnimeList().enqueue(object: Callback<AnimeResponse>{
-            override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
-                if(response.isSuccessful && response.body() != null){
-                    val animeResponse : AnimeResponse = response.body()!!
-                    adapter.updateList(animeResponse.data)
-                }
-            }
-
-            override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
+        viewModel.animeList.observe(viewLifecycleOwner, Observer { list ->
+            adapter.updateList(list)
         })
+
     }
 
 }

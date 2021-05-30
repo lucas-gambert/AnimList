@@ -1,4 +1,4 @@
-package com.example.appliesiea.api
+package com.example.appliesiea.presentation.api
 
 import retrofit2.Call
 import retrofit2.http.GET
