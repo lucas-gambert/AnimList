@@ -15,7 +15,7 @@
 
         <EditText
             android:id="@+id/searchQuery"
-            android:layout_width="wrap_content"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:hint="Rechercher"
             android:layout_gravity="center"
@@ -24,12 +24,8 @@
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:src="@drawable/search_logo"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt"
             />
 
     </LinearLayout>
@@ -43,6 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20px"
         />
 
 </LinearLayout>

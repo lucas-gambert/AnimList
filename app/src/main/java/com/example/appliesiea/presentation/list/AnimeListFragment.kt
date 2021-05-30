@@ -50,7 +50,6 @@ class AnimeListFragment : Fragment() {
 
         val searchText = view.findViewById<EditText>(R.id.searchQuery)
         val searchButton = view.findViewById<ImageButton>(R.id.searchBtn)
-        val txt = view.findViewById<TextView>(R.id.txt)
 
         searchButton.setOnClickListener {
             if(searchText.text.toString() == ""){
