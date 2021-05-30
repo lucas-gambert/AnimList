@@ -75,9 +75,9 @@ class AnimeAdapter(private var dataSet: List<Anime>) :
         viewHolder.rateTextView.text = "Note : " + anime.attributes.averageRating
         viewHolder.id = anime.id
 
-
-        Picasso.get().load(anime.attributes.posterImage.small).into(viewHolder.imageView)
-
+        if(anime.attributes.posterImage != null){
+            Picasso.get().load(anime.attributes.posterImage.small).into(viewHolder.imageView)
+        }
 
     }
 

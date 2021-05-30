@@ -24,7 +24,7 @@ import android.util.Log
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class AnimeListFragment : Fragment(), View.OnClickListener {
+class AnimeListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private val adapter = AnimeAdapter(listOf())
@@ -50,6 +50,36 @@ class AnimeListFragment : Fragment(), View.OnClickListener {
 
         val searchText = view.findViewById<EditText>(R.id.searchQuery)
         val searchButton = view.findViewById<ImageButton>(R.id.searchBtn)
+        val txt = view.findViewById<TextView>(R.id.txt)
+
+        searchButton.setOnClickListener {
+            if(searchText.text.toString() == ""){
+                Singletons.animeApi.getAnimeList().enqueue(object: Callback<AnimeResponse>{
+                    override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
+                        if(response.isSuccessful && response.body() != null){
+                            val animeResponse : AnimeResponse = response.body()!!
+                            adapter.updateList(animeResponse.data)
+                        }
+                    }
+                    override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
+            }else{
+                Singletons.animeApi.searchAnime(searchText.text.toString()).enqueue(object: Callback<AnimeResponse> {
+                    override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
+                        if(response.isSuccessful && response.body() != null){
+                            val animeResponse : AnimeResponse = response.body()!!
+                            adapter.updateList(animeResponse.data)
+                        }
+                    }
+                    override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
+            }
+
+        }
 
         Singletons.animeApi.getAnimeList().enqueue(object: Callback<AnimeResponse>{
             override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
@@ -64,27 +94,6 @@ class AnimeListFragment : Fragment(), View.OnClickListener {
             }
 
         })
-    }
-
-    override fun onClick(view: View?) {
-        when(view?.id){
-            R.id.searchBtn->{
-
-                Singletons.animeApi.searchAnime("dbz").enqueue(object: Callback<AnimeResponse> {
-                    override fun onResponse(call: Call<AnimeResponse>, response: Response<AnimeResponse>) {
-                        if(response.isSuccessful && response.body() != null){
-                            val animeResponse : AnimeResponse = response.body()!!
-                            adapter.updateList(animeResponse.data)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<AnimeResponse>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-            }
-        }
     }
 
 }
