@@ -1,4 +1,4 @@
-# AppliESIEA
+# AnimList
 Projet App Esiea LUCAS GAMBERT
 
 Bonjour et bienvenue sur le repo de mon projet d'application mobile pour ce semestre à l'ESIEA
